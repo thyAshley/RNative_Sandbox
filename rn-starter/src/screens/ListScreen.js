@@ -14,7 +14,6 @@ const ListScreen = () => {
     { name: "Friend #9", age: 22 },
   ];
 
-  console.log("----");
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
