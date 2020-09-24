@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, Button } from "react-native";
 
-const ColorAdjuster = ({ userColor, setColor, color, value }) => {
+const ColorAdjuster = ({ userColor, onIncrease, onDecrease }) => {
   return (
     <View>
       <Text>{userColor}</Text>
-      <Button
-        title={`Increase ${userColor}`}
-        onPress={() => setColor(color + value)}
-      />
-      <Button
-        title={`Decrease ${userColor}`}
-        onPress={() => setColor(color - value)}
-        disabled={color === 0}
-      />
+      <Button title={`Increase ${userColor}`} onPress={onIncrease} />
+      <Button title={`Decrease ${userColor}`} onPress={onDecrease} />
     </View>
   );
 };

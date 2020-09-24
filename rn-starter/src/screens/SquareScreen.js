@@ -1,31 +1,56 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import ColorAdjuster from "../components/ColorAdjuster";
 
 const colorIncrement = 12;
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "red":
+      return {
+        ...state,
+        red: state.red + action.amount,
+      };
+    case "green":
+      return {
+        ...state,
+        green: state.green + action.amount,
+      };
+    case "blue":
+      return {
+        ...state,
+        blue: state.blue + action.amount,
+      };
+    default:
+      return state;
+  }
+};
+
 const SquareScreen = () => {
-  const [red, setRed] = useState(0);
-  const [green, setGreen] = useState(0);
-  const [blue, setBlue] = useState(0);
+  const [state, dispatch] = useReducer(reducer, { red: 0, green: 0, blue: 0 });
+  const { red, green, blue } = state;
   return (
     <View>
       <ColorAdjuster
         userColor="Red"
-        color={red}
-        setColor={setRed}
-        value={colorIncrement}
+        onIncrease={() => dispatch({ type: "red", amount: colorIncrement })}
+        onDecrease={() =>
+          dispatch({ type: "red", amount: -1 * colorIncrement })
+        }
       />
       <ColorAdjuster
         userColor="Green"
-        color={green}
-        setColor={setGreen}
-        value={colorIncrement}
+        onIncrease={() => dispatch({ type: "green", amount: colorIncrement })}
+        onDecrease={() =>
+          dispatch({ type: "green", amount: -1 * colorIncrement })
+        }
       />
       <ColorAdjuster
         userColor="Blue"
-        color={blue}
-        setColor={setBlue}
-        value={colorIncrement}
+        onIncrease={() => dispatch({ type: "blue", amount: colorIncrement })}
+        onDecrease={() =>
+          dispatch({ type: "blue", amount: -1 * colorIncrement })
+        }
       />
       <View
         style={{
