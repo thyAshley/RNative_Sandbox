@@ -9,17 +9,17 @@ const reducer = (state, action) => {
     case "red":
       return {
         ...state,
-        red: state.red + action.amount,
+        red: state.red + action.payload,
       };
     case "green":
       return {
         ...state,
-        green: state.green + action.amount,
+        green: state.green + action.payload,
       };
     case "blue":
       return {
         ...state,
-        blue: state.blue + action.amount,
+        blue: state.blue + action.payload,
       };
     default:
       return state;
@@ -33,24 +33,27 @@ const SquareScreen = () => {
     <View>
       <ColorAdjuster
         userColor="Red"
-        onIncrease={() => dispatch({ type: "red", amount: colorIncrement })}
+        onIncrease={() => dispatch({ type: "red", payload: colorIncrement })}
         onDecrease={() =>
-          dispatch({ type: "red", amount: -1 * colorIncrement })
+          dispatch({ type: "red", payload: -1 * colorIncrement })
         }
+        value={red}
       />
       <ColorAdjuster
         userColor="Green"
-        onIncrease={() => dispatch({ type: "green", amount: colorIncrement })}
+        onIncrease={() => dispatch({ type: "green", payload: colorIncrement })}
         onDecrease={() =>
-          dispatch({ type: "green", amount: -1 * colorIncrement })
+          dispatch({ type: "green", payload: -1 * colorIncrement })
         }
+        value={green}
       />
       <ColorAdjuster
         userColor="Blue"
-        onIncrease={() => dispatch({ type: "blue", amount: colorIncrement })}
+        onIncrease={() => dispatch({ type: "blue", payload: colorIncrement })}
         onDecrease={() =>
-          dispatch({ type: "blue", amount: -1 * colorIncrement })
+          dispatch({ type: "blue", payload: -1 * colorIncrement })
         }
+        value={blue}
       />
       <View
         style={{
