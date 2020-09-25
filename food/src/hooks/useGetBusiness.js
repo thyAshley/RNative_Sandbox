@@ -7,7 +7,7 @@ const useGetBusiness = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    getRestaurants("mcdonald");
+    getRestaurants("burger");
   }, []);
 
   const getRestaurants = async (term) => {

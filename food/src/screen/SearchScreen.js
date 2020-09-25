@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { Text, StyleSheet, ScrollView } from "react-native";
 import ResultsList from "../components/ResultsList";
 
 import SearchBar from "../components/SearchBar";
