@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import axios from "../api/yelp";
@@ -7,16 +7,26 @@ import SearchBar from "../components/SearchBar";
 const SearchScreen = () => {
   const [searchText, setSearchText] = useState("");
   const [results, setResults] = useState([]);
+  const [error, setError] = useState(null);
 
-  const getRestaurants = async () => {
-    const response = await axios.get(`/search`, {
-      params: {
-        term: searchText,
-        location: "malaysia",
-        limit: 50,
-      },
-    });
-    setResults(response.data.businesses);
+  useEffect(() => {
+    getRestaurants("mcdonald");
+  }, []);
+
+  const getRestaurants = async (term) => {
+    try {
+      const response = await axios.get(`/search`, {
+        params: {
+          term,
+          location: "malaysia",
+          limit: 50,
+        },
+      });
+      setError(null);
+      setResults(response.data.businesses);
+    } catch (err) {
+      setError("Something went wrong!");
+    }
   };
 
   return (
@@ -26,6 +36,7 @@ const SearchScreen = () => {
         setSearchText={setSearchText}
         onSubmit={getRestaurants}
       />
+      {error && <Text>{error}</Text>}
       <Text>We have found {results.length} results</Text>
     </View>
   );
