@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { Fragment, useState } from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import ResultsList from "../components/ResultsList";
 
 import SearchBar from "../components/SearchBar";
@@ -14,18 +14,19 @@ const SearchScreen = () => {
   };
 
   return (
-    <View>
+    <Fragment>
       <SearchBar
         text={searchText}
         setSearchText={setSearchText}
         onSubmit={getRestaurants}
       />
       {error && <Text>{error}</Text>}
-      <Text>We have found {results.length} results</Text>
-      <ResultsList title="Cost Effective" data={filterByPrice("$")} />
-      <ResultsList title="Bit Pricier" data={filterByPrice("$$")} />
-      <ResultsList title="Big Spender" data={filterByPrice("$$")} />
-    </View>
+      <ScrollView>
+        <ResultsList title="Cost Effective" results={filterByPrice("$")} />
+        <ResultsList title="Bit Pricier" results={filterByPrice("$$")} />
+        <ResultsList title="Big Spender" results={filterByPrice("$$$")} />
+      </ScrollView>
+    </Fragment>
   );
 };
 
