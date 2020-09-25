@@ -1,34 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import axios from "../api/yelp";
 import SearchBar from "../components/SearchBar";
+import useGetBusiness from "../hooks/useGetBusiness";
 
 const SearchScreen = () => {
   const [searchText, setSearchText] = useState("");
-  const [results, setResults] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    getRestaurants("mcdonald");
-  }, []);
-
-  const getRestaurants = async (term) => {
-    try {
-      const response = await axios.get(`/search`, {
-        params: {
-          term,
-          location: "malaysia",
-          limit: 50,
-        },
-      });
-      setError(null);
-      setResults(response.data.businesses);
-    } catch (err) {
-      setError("Something went wrong!");
-    }
-  };
-
+  const [results, error, getRestaurants] = useGetBusiness();
   return (
     <View>
       <SearchBar
