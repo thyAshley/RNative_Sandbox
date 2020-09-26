@@ -1,62 +1,83 @@
 import createDataContext from "./createDataContext";
+import axios from "../api/axios";
 
 const blogReducer = (state, action) => {
   switch (action.type) {
-    case "ADD":
-      return [
-        {
-          id: Math.floor(Math.random() * 9999999),
-          title: action.payload.title,
-          content: action.payload.content,
-        },
-        ...state,
-      ];
     case "DEL":
       return state.filter((post) => post.id !== action.payload);
     case "EDIT":
       return state.map((blog) => {
         return blog.id === action.payload.id ? action.payload : blog;
       });
+    case "GET":
+      return action.payload;
     default:
       return state;
   }
 };
 
-const addBlog = (dispatch) => {
+const getBlog = (dispatch) => {
+  return async () => {
+    try {
+      const response = await axios.get("/blogposts");
+      dispatch({
+        type: "GET",
+        payload: response.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+const addBlog = () => {
   return async (title, content, callback) => {
-    await dispatch({
-      type: "ADD",
-      payload: {
+    try {
+      await axios.post("/blogposts", {
         title,
         content,
-      },
-    });
-    callback && callback();
+      });
+      callback && callback();
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 
 const delBlog = (dispatch) => {
-  return (id) => {
-    dispatch({ type: "DEL", payload: id });
+  return async (id) => {
+    try {
+      await axios.delete(`/blogposts/${id}`);
+      dispatch({ type: "DEL", payload: id });
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 
 const editBlog = (dispatch) => {
-  return (id, title, content, callback) => {
-    dispatch({
-      type: "EDIT",
-      payload: {
-        id,
+  return async (id, title, content, callback) => {
+    try {
+      await axios.put(`/blogposts/${id}`, {
         title,
         content,
-      },
-    });
+      });
+      dispatch({
+        type: "EDIT",
+        payload: {
+          id,
+          title,
+          content,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
     callback && callback();
   };
 };
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlog, delBlog, editBlog },
-  [{ id: 1, title: "init", content: "this is here" }]
+  { addBlog, delBlog, editBlog, getBlog },
+  []
 );

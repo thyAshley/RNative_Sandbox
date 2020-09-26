@@ -1,11 +1,21 @@
-import React, { useContext } from "react";
-import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
+import React, { useContext, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { Context, Provider } from "../context/BlogContext";
+import { Context } from "../context/BlogContext";
 import { AntDesign } from "@expo/vector-icons";
 
 const IndexScreen = ({ navigation }) => {
-  const { state, addBlog, delBlog } = useContext(Context);
+  const { state, delBlog, getBlog } = useContext(Context);
+
+  useEffect(() => {
+    getBlog();
+
+    const listener = navigation.addListener("didFocus", () => getBlog());
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   return (
     <View>
