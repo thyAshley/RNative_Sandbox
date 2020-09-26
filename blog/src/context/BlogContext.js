@@ -6,7 +6,8 @@ const blogReducer = (state, action) => {
       return [
         {
           id: Math.floor(Math.random() * 9999999),
-          title: `Blog Post #${state.length + 1}`,
+          title: action.payload.title,
+          content: action.payload.content,
         },
         ...state,
       ];
@@ -18,8 +19,15 @@ const blogReducer = (state, action) => {
 };
 
 const addBlog = (dispatch) => {
-  return () => {
-    dispatch({ type: "ADD" });
+  return async (title, content, callback) => {
+    await dispatch({
+      type: "ADD",
+      payload: {
+        title,
+        content,
+      },
+    });
+    callback();
   };
 };
 
