@@ -1,39 +1,17 @@
 import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { StyleSheet } from "react-native";
 import { Context } from "../context/BlogContext";
+import BlogPostForm from "../components/BlogPostForm";
 
 const CreateScreen = ({ navigation }) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
   const { addBlog } = useContext(Context);
 
   return (
-    <View>
-      <Text style={styles.label}>Enter Title:</Text>
-      <TextInput
-        style={styles.input}
-        value={title}
-        onChangeText={(title) => setTitle(title)}
-      />
-      <Text style={styles.label}>Enter Content:</Text>
-      <TextInput
-        multiline={true}
-        numberOfLines={4}
-        style={styles.input}
-        value={content}
-        textAlignVertical="top"
-        onChangeText={(content) => setContent(content)}
-      />
-      <Button
-        title="Add Blog post"
-        onPress={() =>
-          addBlog(title, content, () => {
-            navigation.navigate("Index");
-          })
-        }
-      />
-    </View>
+    <BlogPostForm
+      onSubmit={(title, content) =>
+        addBlog(title, content, () => navigation.navigate("Index"))
+      }
+    />
   );
 };
 

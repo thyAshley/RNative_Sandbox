@@ -9,7 +9,6 @@ const IndexScreen = ({ navigation }) => {
 
   return (
     <View>
-      <Button title="add blog" onPress={addBlog} />
       <FlatList
         data={state}
         keyExtractor={(state) => state.title}
