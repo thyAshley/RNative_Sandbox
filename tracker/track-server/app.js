@@ -1,16 +1,18 @@
+const { urlencoded } = require("express");
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const app = express();
+const authRoutes = require("./routes/authRoutes");
 
-app.get("/", (req, res) => {
-  res.send("hello world");
-});
+const app = express();
+app.use(express.json());
+app.use(authRoutes);
 
 mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 mongoose.connection.on("connected", () => {
@@ -19,6 +21,10 @@ mongoose.connection.on("connected", () => {
 
 mongoose.connection.on("error", (err) => {
   console.error(`ERROR CONNECTING TO MONGO ${err}`);
+});
+
+app.get("/", (req, res) => {
+  res.send(`Your Email is ${req.user.email}`);
 });
 
 app.listen("3000", () => {
