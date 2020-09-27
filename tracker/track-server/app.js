@@ -4,10 +4,12 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
+const trackRoutes = require("./routes/trackRoutes");
 
 const app = express();
 app.use(express.json());
 app.use(authRoutes);
+app.use(trackRoutes);
 
 mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
   useNewUrlParser: true,
