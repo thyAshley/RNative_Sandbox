@@ -7,9 +7,24 @@ const authReducer = (state, action) => {
   }
 };
 
+const signup = dispatch => {
+  return async({email, password}) => {
+    const await 
+  }
+}
+const signin = dispatch => {
+  return async({email, password}) => {
+    const await 
+  }
+}
+}
+const signout = dispatch => {
+  return async() => {
+  }
+}
 export const { Provider, Context } = createDataContext(
   authReducer,
-  {},
+  {signup, signin, signout},
   {
     isSignedIn: false,
   }
