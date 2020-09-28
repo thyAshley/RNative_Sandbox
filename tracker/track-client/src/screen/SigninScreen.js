@@ -6,7 +6,7 @@ const SigninScreen = ({ navigation }) => {
   return (
     <View>
       <Text>Signin Screen</Text>
-      <TouchableOpacity onPress={() => navigation.push("signup")}>
+      <TouchableOpacity onPress={() => navigation.navigate("signup")}>
         <Text>Sign up</Text>
       </TouchableOpacity>
     </View>
