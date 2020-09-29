@@ -9,7 +9,7 @@ const Map = () => {
   } = useContext(LocationContext);
   return currentLocation ? (
     <MapView
-      region={{
+      initialRegion={{
         ...currentLocation.coords,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
@@ -18,7 +18,7 @@ const Map = () => {
     >
       <Circle
         center={currentLocation.coords}
-        radius={120}
+        radius={30}
         strokeColor="rgba(158,158,255,1.0)"
         fillColor="rgba(158,158,255,0.2)"
       />
