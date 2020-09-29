@@ -20,7 +20,7 @@ const MainStackNavigator = () => {
       <Stack.Screen
         name="login"
         component={SigninScreen}
-        options={{ title: "Log In" }}
+        options={{ title: "Log In", headerShown: false }}
       />
       <Stack.Screen
         name="signup"
