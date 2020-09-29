@@ -9,6 +9,7 @@ import TrackDetailScreen from "./src/screen/TrackDetailScreen";
 import TrackListScreen from "./src/screen/TrackListScreen";
 import AccountScreen from "./src/screen/AccountScreen";
 import { Provider as AuthProvider } from "./src/context/authContext";
+import { setNavigator } from "./src/utils/navigationRef";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -56,7 +57,11 @@ const BottomTabNavigator = () => {
 export default () => {
   return (
     <AuthProvider>
-      <NavigationContainer>
+      <NavigationContainer
+        ref={(navigator) => {
+          setNavigator(navigator);
+        }}
+      >
         <MainStackNavigator />
       </NavigationContainer>
     </AuthProvider>

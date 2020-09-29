@@ -4,6 +4,7 @@ import { Text, Input, Button } from "react-native-elements";
 
 import Spacer from "../components/Spacer";
 import { Context as AuthContext } from "../context/authContext";
+import { navigate } from "../utils/navigationRef";
 
 const SignupScreen = ({ navigation }) => {
   const { state, signup } = useContext(AuthContext);

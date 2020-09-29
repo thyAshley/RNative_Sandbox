@@ -1,6 +1,7 @@
 import createDataContext from "./createDataContext";
 import AsyncStorage from "@react-native-community/async-storage";
 import axios from "../api/axios";
+import { navigate } from "../utils/navigationRef";
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -29,11 +30,13 @@ const signup = (dispatch) => {
       });
       await AsyncStorage.setItem("token", response.data.token);
       dispatch({ type: "signup", payload: response.data.token });
+      navigate("track");
     } catch (error) {
       dispatch({ type: "error", payload: error.response.data.error });
     }
   };
 };
+
 const signin = (dispatch) => {
   return async ({ email, password }) => {};
 };
