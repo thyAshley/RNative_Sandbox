@@ -10,13 +10,19 @@ import TrackListScreen from "./src/screen/TrackListScreen";
 import AccountScreen from "./src/screen/AccountScreen";
 import { Provider as AuthProvider } from "./src/context/authContext";
 import { setNavigator } from "./src/utils/navigationRef";
+import ResolveAuth from "./src/screen/ResolveAuth";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MainStackNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="signup">
+    <Stack.Navigator initialRouteName="resolve">
+      <Stack.Screen
+        name="resolve"
+        component={ResolveAuth}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         name="login"
         component={SigninScreen}
@@ -46,7 +52,7 @@ const TrackStackNavigator = () => {
 
 const BottomTabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator initialRouteName="detail">
       <Tab.Screen name="detail" component={TrackStackNavigator} />
       <Tab.Screen name="create" component={TrackCreateScreen} />
       <Tab.Screen name="account" component={AccountScreen} />
