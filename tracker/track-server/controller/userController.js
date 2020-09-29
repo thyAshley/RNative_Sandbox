@@ -12,7 +12,7 @@ exports.signUp = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
     res.send({ token });
   } catch (error) {
-    res.status(422).send(error.message);
+    res.status(422).send({ error: error.message });
   }
 };
 

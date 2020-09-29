@@ -10,17 +10,19 @@ export default (callback, shouldTrack) => {
   const [subscriber, setSubscriber] = useState(null);
 
   useEffect(() => {
-    console.log(shouldTrack);
+    console.log("watching", shouldTrack);
     if (shouldTrack) startWatching();
     else {
-      console.log("removing");
-      subscriber.remove();
-      setSubscriber(null);
+      if (subscriber) {
+        subscriber.remove();
+        setSubscriber(null);
+      }
     }
   }, [shouldTrack]);
 
   const startWatching = async () => {
     try {
+      console.log("start watching");
       const { status } = await requestPermissionsAsync();
       if (status !== "granted") setErr(true);
       else setErr(null);
@@ -30,9 +32,7 @@ export default (callback, shouldTrack) => {
           timeInterval: 1000,
           distanceInterval: 10,
         },
-        (location) => {
-          callback(location);
-        }
+        callback
       );
       setSubscriber(sub);
     } catch (error) {
