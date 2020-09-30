@@ -1,24 +1,18 @@
 import React from "react";
-import {
-  Platform,
-  SafeAreaView,
-  StyleSheet,
-  View,
-  StatusBar,
-} from "react-native";
+import { View } from "react-native";
+
+import ViewImageScreen from "./src/screens/ViewImageScreen";
 import LoginScreen from "./src/screens/LoginScreen";
+import Card from "./src/components/Card";
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.safeview}>
-      <LoginScreen />
-    </SafeAreaView>
+    <View style={{ backgroundColor: "#f8f4f4", padding: 20, paddingTop: 100 }}>
+      <Card
+        title="Red Jackets"
+        subTitle="$100"
+        image={require("./assets/jacket.jpg")}
+      />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  safeview: {
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    flex: 1,
-  },
-});
