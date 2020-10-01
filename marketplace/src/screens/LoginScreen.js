@@ -1,54 +1,71 @@
-import React from "react";
-import { View, StyleSheet, ImageBackground, Image, Text } from "react-native";
-import AppButton from "../components/AppButton";
+import React, { Fragment } from "react";
+import { StyleSheet, Image } from "react-native";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
-import colors from "../config/colors";
-function LoginScreen() {
+import AppButton from "../components/AppButton/index.js";
+import AppTextInput from "../components/AppTextInput.js";
+import Screen from "../components/SafeScreen";
+import ErrorMessage from "../components/ErrorMessage/ErrorMessage.js";
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string().required("* Email is required").email().label("Email"),
+  password: Yup.string().required().min(4).label("Password"),
+});
+
+export default function LoginScreen() {
   return (
-    <ImageBackground
-      style={styles.background}
-      source={require("../../assets/background.jpg")}
-    >
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/logo-red.png")}
-        />
-        <Text style={styles.tagline}>Sell your stuff!</Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        <AppButton title="login" />
-        <AppButton title="Register" color="secondary" />
-      </View>
-    </ImageBackground>
+    <Screen style={styles.container}>
+      <Image
+        style={styles.logo}
+        source={require("../../assets/logo-red.png")}
+      />
+      <Formik
+        initialValues={{ email: "", password: "" }}
+        onSubmit={(values) => console.log(values)}
+        validationSchema={validationSchema}
+      >
+        {({ handleChange, handleSubmit, errors, values }) => (
+          <Fragment>
+            <AppTextInput
+              placeholder="Email"
+              icon="email"
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              onChangeText={handleChange("email")}
+              value={values.email}
+            />
+            <ErrorMessage error={errors.email} />
+            <AppTextInput
+              placeholder="Password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              icon="lock"
+              textContentType="password"
+              secureTextEntry
+              onChangeText={handleChange("password")}
+              value={values.password}
+            />
+            <ErrorMessage error={errors.password} />
+            <AppButton title="Login" onPress={handleSubmit} />
+          </Fragment>
+        )}
+      </Formik>
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  buttonContainer: {
+  container: {
     padding: 20,
-    width: "100%",
   },
   logo: {
-    height: 70,
-    width: 70,
-  },
-  logoContainer: {
-    position: "absolute",
-    top: 70,
-    alignItems: "center",
-  },
-  tagline: {
-    fontSize: 25,
-    fontWeight: "600",
-    paddingVertical: 20,
+    alignSelf: "center",
+    height: 80,
+    marginBottom: 20,
+    marginTop: 50,
+    width: 80,
   },
 });
-
-export default LoginScreen;
