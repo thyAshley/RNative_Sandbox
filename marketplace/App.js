@@ -8,11 +8,16 @@ import ListingDetailsScreen from "./src/screens/ListingDetailsScreen";
 import MessagesScreen from "./src/screens/MessagesScreen";
 import Screen from "./src/components/SafeScreen";
 import Icon from "./src/components/Icon";
+import ListItem from "./src/components/ListItem";
 
 export default function App() {
   return (
     <Screen>
-      <Icon name="email" size={50} background="red" iconColor="white" />
+      <ListItem
+        title="My title"
+        subTitle="My subtitle"
+        ImageComponent={<Icon name="email" />}
+      />
     </Screen>
   );
 }

@@ -27,7 +27,40 @@ export default function MessagesScreen() {
   const handleDelete = (message) => {
     const newMessages = messages.filter((m) => m.id !== message.id);
     setMessages(newMessages);
+    setMessages([
+      {
+        id: 1,
+        title: "T1",
+        description: "D1",
+        image: require("../../assets/mosh.jpg"),
+      },
+      {
+        id: 2,
+        title: "T2",
+        description: "D2",
+        image: require("../../assets/mosh.jpg"),
+      },
+    ]);
   };
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setMessages([
+      {
+        id: 1,
+        title: "T1",
+        description: "D1",
+        image: require("../../assets/mosh.jpg"),
+      },
+      {
+        id: 2,
+        title: "T2",
+        description: "D2",
+        image: require("../../assets/mosh.jpg"),
+      },
+    ]);
+    setTimeout(() => setRefreshing(false), 2000);
+  }, []);
 
   return (
     <Screen>
@@ -47,22 +80,7 @@ export default function MessagesScreen() {
         )}
         ItemSeparatorComponent={() => <ListItemSeparator />}
         refreshing={refreshing}
-        onRefresh={() => {
-          setMessages([
-            {
-              id: 1,
-              title: "T1",
-              description: "D1",
-              image: require("../../assets/mosh.jpg"),
-            },
-            {
-              id: 2,
-              title: "T2",
-              description: "D2",
-              image: require("../../assets/mosh.jpg"),
-            },
-          ]);
-        }}
+        onRefresh={onRefresh}
       />
     </Screen>
   );
