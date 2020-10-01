@@ -7,5 +7,6 @@ export default {
     color: colors.darkgrey,
     fontSize: 15,
     fontFamily: Platform.OS === "android" ? "Roboto" : "Avenier",
+    width: "100%",
   },
 };
