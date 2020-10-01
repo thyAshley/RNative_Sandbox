@@ -9,15 +9,8 @@ import MessagesScreen from "./src/screens/MessagesScreen";
 import Screen from "./src/components/SafeScreen";
 import Icon from "./src/components/Icon";
 import ListItem from "./src/components/ListItem";
+import AccountScreen from "./src/screens/AccountScreen";
 
 export default function App() {
-  return (
-    <Screen>
-      <ListItem
-        title="My title"
-        subTitle="My subtitle"
-        ImageComponent={<Icon name="email" />}
-      />
-    </Screen>
-  );
+  return <AccountScreen />;
 }
