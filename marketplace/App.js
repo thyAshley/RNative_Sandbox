@@ -6,7 +6,13 @@ import LoginScreen from "./src/screens/LoginScreen";
 import Card from "./src/components/Card";
 import ListingDetailsScreen from "./src/screens/ListingDetailsScreen";
 import MessagesScreen from "./src/screens/MessagesScreen";
+import Screen from "./src/components/SafeScreen";
+import Icon from "./src/components/Icon";
 
 export default function App() {
-  return <MessagesScreen />;
+  return (
+    <Screen>
+      <Icon name="email" size={50} background="red" iconColor="white" />
+    </Screen>
+  );
 }
