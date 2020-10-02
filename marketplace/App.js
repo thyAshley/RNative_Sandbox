@@ -1,9 +1,25 @@
-import React from "react";
-import ListingEditScreen from "./src/screens/ListingEditScreen";
+import React, { useEffect, useState } from "react";
 
-import LoginScreen from "./src/screens/LoginScreen";
-import MessagesScreen from "./src/screens/MessagesScreen";
+import Screen from "./src/components/SafeScreen";
+import ImageInput from "./src/components/ImageInput";
+import ImageInputList from "./src/components/ImageInputList/Index";
 
 export default function App() {
-  return <ListingEditScreen />;
+  const [imageUri, setImageUris] = useState([]);
+  const handleAdd = (uri) => {
+    setImageUris([...imageUri, uri]);
+  };
+
+  const handleRemove = (uri) => {
+    setImageUris(imageUri.filter((img) => img !== uri));
+  };
+  return (
+    <Screen>
+      <ImageInputList
+        imageUri={imageUri}
+        onAddImage={handleAdd}
+        onRemoveImage={handleRemove}
+      />
+    </Screen>
+  );
 }
