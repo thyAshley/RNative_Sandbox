@@ -5,5 +5,5 @@ import LoginScreen from "./src/screens/LoginScreen";
 import MessagesScreen from "./src/screens/MessagesScreen";
 
 export default function App() {
-  return <MessagesScreen />;
+  return <ListingEditScreen />;
 }
