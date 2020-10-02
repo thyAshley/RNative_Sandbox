@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 
-import Screen from "../components/SafeScreen";
 import ListItem from "../components/ListItem";
 import ListItemSeparator from "../components/ListItemSeparator";
 import ListItemDeleteAction from "../components/ListItemDeleteAction";
@@ -53,7 +52,7 @@ export default function MessagesScreen() {
   }, []);
 
   return (
-    <Screen>
+    <View>
       <FlatList
         data={messages}
         keyExtractor={(message) => message.id.toString()}
@@ -72,6 +71,6 @@ export default function MessagesScreen() {
         refreshing={refreshing}
         onRefresh={onRefresh}
       />
-    </Screen>
+    </View>
   );
 }

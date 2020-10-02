@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { DefaultTheme } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import ListingsScreen from "../screens/ListingsScreen";
 import AccountScreen from "../screens/AccountScreen";
@@ -13,6 +14,7 @@ import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import colors from "../config/colors";
+import NewListingButton from "./NewListingButton";
 
 const AccountStack = createStackNavigator();
 const AppTab = createBottomTabNavigator();
@@ -33,19 +35,45 @@ const AuthStackNavigator = () => (
 
 const AppTabNavigator = () => (
   <AppTab.Navigator tabBarOptions={{ inactiveTintColor: colors.darkgrey }}>
-    <AppTab.Screen name="Feed" component={FeedNavigator} />
-    <AppTab.Screen name="ListingEdit" component={ListingEditScreen} />
-    <AppTab.Screen name="Account" component={AccountNavigator} />
+    <AppTab.Screen
+      name="Feed"
+      component={FeedNavigator}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="home" color={color} size={size} />
+        ),
+      }}
+    />
+    <AppTab.Screen
+      name="ListingEdit"
+      component={ListingEditScreen}
+      options={({ navigation }) => ({
+        tabBarButton: () => (
+          <NewListingButton
+            onPress={() => navigation.navigate("ListingEdit")}
+          />
+        ),
+      })}
+    />
+    <AppTab.Screen
+      name="Account"
+      component={AccountNavigator}
+      options={{
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="account" color={color} size={size} />
+        ),
+      }}
+    />
   </AppTab.Navigator>
 );
 
 const FeedNavigator = () => (
-  <FeedStack.Navigator mode="modal">
+  <FeedStack.Navigator mode="modal" screenOptions={{ headerShown: false }}>
     <FeedStack.Screen name="Listings" component={ListingsScreen} />
     <FeedStack.Screen
       name="ListingDetails"
       component={ListingDetailsScreen}
-      options={{ gestureEnabled: true, headerShown: false }}
+      options={{ gestureEnabled: true }}
     />
   </FeedStack.Navigator>
 );

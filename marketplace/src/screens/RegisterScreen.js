@@ -1,8 +1,7 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 
-import Screen from "../components/SafeScreen";
 import {
   AppForm as Form,
   AppFormField as FormField,
@@ -17,7 +16,7 @@ const validationSchema = Yup.object().shape({
 
 function RegisterScreen() {
   return (
-    <Screen style={styles.container}>
+    <View style={styles.container}>
       <Form
         initValues={{ name: "", email: "", password: "" }}
         onSubmit={(values) => console.log(values)}
@@ -49,7 +48,7 @@ function RegisterScreen() {
         />
         <SubmitButton title="Register" />
       </Form>
-    </Screen>
+    </View>
   );
 }
 

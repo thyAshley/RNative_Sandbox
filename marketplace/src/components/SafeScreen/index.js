@@ -7,7 +7,7 @@ export default function Screen({ children, style }) {
 
 const styles = StyleSheet.create({
   safe: {
-    marginTop: Platform.OS === "android" ? 0 : 0,
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
   },
 });

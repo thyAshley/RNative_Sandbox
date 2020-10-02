@@ -27,7 +27,7 @@ const menuItems = [
 ];
 export default function AccountScreen({ navigation }) {
   return (
-    <Screen style={styles.screen}>
+    <View style={styles.screen}>
       <View style={styles.container}>
         <ListItem
           title="Mosh"
@@ -60,7 +60,7 @@ export default function AccountScreen({ navigation }) {
           IconComponent={<Icon name="logout" background="#ffee66" />}
         />
       </View>
-    </Screen>
+    </View>
   );
 }
 
