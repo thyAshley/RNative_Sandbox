@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { StyleSheet, FlatList } from "react-native";
 
 import AppButton from "../components/AppButton";
@@ -10,28 +10,15 @@ import routes from "../navigator/routes";
 import listingsApi from "../api/listings";
 import AppText from "../components/AppText";
 import LotteActivityIndicators from "../components/ActivityIndicator";
+import useApi from "../hooks/useApi";
 
 export default function ListingsScreen({ navigation }) {
-  const [listings, setListings] = useState([]);
-  const [hasError, setHasError] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const loadListing = async () => {
-    setLoading(true);
-    setHasError(false);
-
-    try {
-      const response = await listingsApi.getListings();
-      if (response) setListings(response.data);
-    } catch (error) {
-      setHasError(true);
-    }
-
-    setLoading(false);
-  };
+  const { data: listings, hasError, loading, request: LoadListing } = useApi(
+    listingsApi.getListings
+  );
 
   useEffect(() => {
-    loadListing();
+    LoadListing();
   }, []);
 
   return (
@@ -39,7 +26,7 @@ export default function ListingsScreen({ navigation }) {
       {hasError && (
         <Fragment>
           <AppText>Couldn't connect to the server, Please try again</AppText>
-          <AppButton title="Retry" onPress={loadListing} />
+          <AppButton title="Retry" onPress={LoadListing} />
         </Fragment>
       )}
 
