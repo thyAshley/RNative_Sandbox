@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
+import listingApi from "../api/listings";
 
 import {
   AppForm,
@@ -10,13 +11,13 @@ import {
 } from "../components/forms";
 import Screen from "../components/SafeScreen";
 import CategoryPickerItem from "../components/CategoryPickerItem";
+import UploadScreen from "./UploadScreen";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import useLocation from "../hooks/useLocation";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
   price: Yup.number().required().min(1).max(10000).label("Price"),
-  description: Yup.string().required().label("Description"),
   category: Yup.object().required().nullable().label("Category"),
   images: Yup.array().min(1, "Please select at least one image."),
 });
@@ -80,9 +81,29 @@ const categories = [
 
 export default function ListingEditScreen() {
   const location = useLocation();
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
 
+  const handleSubmit = async (listing, { resetForm }) => {
+    setProgress(0);
+    setUploadVisible(true);
+    try {
+      await listingApi.addListings({ ...listing, location }, (progress) => {
+        setProgress(progress);
+        resetForm();
+      });
+    } catch (error) {
+      setUploadVisible(false);
+      alert("could not save the listing");
+    }
+  };
   return (
     <Screen style={styles.container}>
+      <UploadScreen
+        progress={progress}
+        visible={uploadVisible}
+        onDone={() => setUploadVisible(false)}
+      />
       <AppForm
         style={styles.container}
         initValues={{
@@ -92,7 +113,7 @@ export default function ListingEditScreen() {
           category: null,
           images: [],
         }}
-        onSubmit={(values) => console.log(location)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
