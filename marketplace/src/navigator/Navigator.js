@@ -15,6 +15,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 import MessagesScreen from "../screens/MessagesScreen";
 import colors from "../config/colors";
 import NewListingButton from "./NewListingButton";
+import routes from "./routes";
 
 const AccountStack = createStackNavigator();
 const AppTab = createBottomTabNavigator();
@@ -71,7 +72,7 @@ const FeedNavigator = () => (
   <FeedStack.Navigator mode="modal" screenOptions={{ headerShown: false }}>
     <FeedStack.Screen name="Listings" component={ListingsScreen} />
     <FeedStack.Screen
-      name="ListingDetails"
+      name={routes.LISTING_DETAILS}
       component={ListingDetailsScreen}
       options={{ gestureEnabled: true }}
     />
