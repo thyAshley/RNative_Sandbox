@@ -1,9 +1,14 @@
 import React from "react";
 import NavigationStack from "./src/navigator/Navigator";
-import ListingEditScreen from "./src/screens/ListingEditScreen";
+import OfflineNotice from "./src/components/OfflineNotice";
 
 const App = () => {
-  return NavigationStack;
+  return (
+    <>
+      <OfflineNotice />
+      {NavigationStack}
+    </>
+  );
 };
 
 export default App;
