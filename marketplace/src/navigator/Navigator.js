@@ -1,8 +1,7 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { DefaultTheme } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import ListingsScreen from "../screens/ListingsScreen";
@@ -22,7 +21,7 @@ const AppTab = createBottomTabNavigator();
 const AuthStack = createStackNavigator();
 const FeedStack = createStackNavigator();
 
-const AuthStackNavigator = () => (
+export const AuthStackNavigator = () => (
   <AuthStack.Navigator>
     <AuthStack.Screen
       name="Welcome"
@@ -34,7 +33,7 @@ const AuthStackNavigator = () => (
   </AuthStack.Navigator>
 );
 
-const AppTabNavigator = () => (
+export const AppTabNavigator = () => (
   <AppTab.Navigator tabBarOptions={{ inactiveTintColor: colors.darkgrey }}>
     <AppTab.Screen
       name="Feed"
@@ -84,20 +83,4 @@ const AccountNavigator = () => (
     <AccountStack.Screen name="Account" component={AccountScreen} />
     <AccountStack.Screen name="Messages" component={MessagesScreen} />
   </AccountStack.Navigator>
-);
-
-const MyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    text: colors.primary,
-    primary: colors.primary,
-    background: colors.white,
-  },
-};
-
-export default (
-  <NavigationContainer theme={MyTheme}>
-    <AppTabNavigator />
-  </NavigationContainer>
 );
