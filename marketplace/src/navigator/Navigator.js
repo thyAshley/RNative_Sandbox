@@ -1,8 +1,9 @@
-import React from "react";
-
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Notifications } from "expo";
+import * as Permission from "expo-permissions";
 
 import ListingsScreen from "../screens/ListingsScreen";
 import AccountScreen from "../screens/AccountScreen";
@@ -15,6 +16,7 @@ import MessagesScreen from "../screens/MessagesScreen";
 import colors from "../config/colors";
 import NewListingButton from "./NewListingButton";
 import routes from "./routes";
+import pushTokenApi from "../api/pushToken";
 
 const AccountStack = createStackNavigator();
 const AppTab = createBottomTabNavigator();
@@ -33,39 +35,55 @@ export const AuthStackNavigator = () => (
   </AuthStack.Navigator>
 );
 
-export const AppTabNavigator = () => (
-  <AppTab.Navigator tabBarOptions={{ inactiveTintColor: colors.darkgrey }}>
-    <AppTab.Screen
-      name="Feed"
-      component={FeedNavigator}
-      options={{
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="home" color={color} size={size} />
-        ),
-      }}
-    />
-    <AppTab.Screen
-      name="ListingEdit"
-      component={ListingEditScreen}
-      options={({ navigation }) => ({
-        tabBarButton: () => (
-          <NewListingButton
-            onPress={() => navigation.navigate("ListingEdit")}
-          />
-        ),
-      })}
-    />
-    <AppTab.Screen
-      name="Account"
-      component={AccountNavigator}
-      options={{
-        tabBarIcon: ({ color, size }) => (
-          <MaterialCommunityIcons name="account" color={color} size={size} />
-        ),
-      }}
-    />
-  </AppTab.Navigator>
-);
+export const AppTabNavigator = () => {
+  useEffect(() => {
+    registerForPushNotification();
+  }, []);
+
+  const registerForPushNotification = async () => {
+    try {
+      const permission = await Permission.askAsync(Permission.NOTIFICATIONS);
+      if (!permission.granted) return;
+      const token = await Notifications.getExpoPushTokenAsync();
+      pushTokenApi.register(token);
+    } catch (error) {
+      console.log("Error getting push token", error);
+    }
+  };
+  return (
+    <AppTab.Navigator tabBarOptions={{ inactiveTintColor: colors.darkgrey }}>
+      <AppTab.Screen
+        name="Feed"
+        component={FeedNavigator}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="home" color={color} size={size} />
+          ),
+        }}
+      />
+      <AppTab.Screen
+        name="ListingEdit"
+        component={ListingEditScreen}
+        options={({ navigation }) => ({
+          tabBarButton: () => (
+            <NewListingButton
+              onPress={() => navigation.navigate("ListingEdit")}
+            />
+          ),
+        })}
+      />
+      <AppTab.Screen
+        name="Account"
+        component={AccountNavigator}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account" color={color} size={size} />
+          ),
+        }}
+      />
+    </AppTab.Navigator>
+  );
+};
 
 const FeedNavigator = () => (
   <FeedStack.Navigator mode="modal" screenOptions={{ headerShown: false }}>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { AppLoading } from "expo";
+import axios from "./src/api/axios";
 
 import { AppTabNavigator, AuthStackNavigator } from "./src/navigator/Navigator";
 import OfflineNotice from "./src/components/OfflineNotice";
