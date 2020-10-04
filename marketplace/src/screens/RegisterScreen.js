@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import * as Yup from "yup";
 
@@ -7,6 +7,10 @@ import {
   AppFormField as FormField,
   SubmitButton,
 } from "../components/forms";
+import userApi from "../api/register";
+import useAuth from "../hooks/useAuth";
+import authApi from "../api/auth";
+import axios from "../api/axios";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
@@ -15,11 +19,34 @@ const validationSchema = Yup.object().shape({
 });
 
 function RegisterScreen() {
+  const auth = useAuth();
+  const [error, setError] = useState();
+
+  const handleSubmit = async (userInfo) => {
+    try {
+      const result = await axios.post("/users", {
+        name: userInfo.name,
+        email: userInfo.email,
+        password: userInfo.password,
+      });
+      if (!result.data) {
+        return setError(result.data.error);
+      }
+      const { data: authToken } = await authApi.login(
+        userInfo.email,
+        userInfo.password
+      );
+      auth.logIn(authToken);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Form
         initValues={{ name: "", email: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormField
