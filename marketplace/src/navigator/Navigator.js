@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Notifications } from "expo";
-import * as Permission from "expo-permissions";
 
 import ListingsScreen from "../screens/ListingsScreen";
 import AccountScreen from "../screens/AccountScreen";
@@ -16,7 +14,7 @@ import MessagesScreen from "../screens/MessagesScreen";
 import colors from "../config/colors";
 import NewListingButton from "./NewListingButton";
 import routes from "./routes";
-import pushTokenApi from "../api/pushToken";
+import useNotifications from "../hooks/useNotifications";
 
 const AccountStack = createStackNavigator();
 const AppTab = createBottomTabNavigator();
@@ -36,20 +34,8 @@ export const AuthStackNavigator = () => (
 );
 
 export const AppTabNavigator = () => {
-  useEffect(() => {
-    registerForPushNotification();
-  }, []);
+  useNotifications();
 
-  const registerForPushNotification = async () => {
-    try {
-      const permission = await Permission.askAsync(Permission.NOTIFICATIONS);
-      if (!permission.granted) return;
-      const token = await Notifications.getExpoPushTokenAsync();
-      pushTokenApi.register(token);
-    } catch (error) {
-      console.log("Error getting push token", error);
-    }
-  };
   return (
     <AppTab.Navigator tabBarOptions={{ inactiveTintColor: colors.darkgrey }}>
       <AppTab.Screen
